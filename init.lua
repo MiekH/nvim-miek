@@ -13,10 +13,12 @@ vim.cmd [[
   augroup end
 ]]
 
+
 local use = require('packer').use
 require('packer').startup(function()
   use 'wbthomason/packer.nvim' -- Package manager
 
+  -- git
   use 'tpope/vim-fugitive' -- Git commands in nvim
   use 'tpope/vim-rhubarb' -- Fugitive-companion to interact with github
   -- use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } }
@@ -172,7 +174,6 @@ vim.api.nvim_set_keymap('n', '<leader>fs',      [[<cmd>lua require('telescope.bu
 vim.api.nvim_set_keymap('n', '<leader>ft',      [[<cmd>lua require('telescope.builtin').tags{ only_current_buffer = true }<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>?',       [[<cmd>lua require('telescope.builtin').oldfiles()<CR>]], { noremap = true, silent = true })
 
-  -- true fails
 -- Treesitter configuration
 -- Parsers must be installed manually via :TSInstall
 require('nvim-treesitter.configs').setup {
@@ -316,19 +317,9 @@ vim.o.completeopt = 'menuone,noselect'
 -- luasnip setup
 local luasnip = require 'luasnip'
 
-
   local cmp = require'cmp'
 
   cmp.setup({
-    -- snippet = {
-    --   -- vsnip
-    --   expand = function(args)
-    --     vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-    --     -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-    --     -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
-    --     -- require'snippy'.expand_snippet(args.body) -- For `snippy` users.
-    --   end,
-    -- },
     snippet = {
       expand = function(args)
         luasnip.lsp_expand(args.body)
