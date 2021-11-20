@@ -12,7 +12,7 @@ It is based heavily on the good work of [tjdevries](https://github.com/tjdevries
   - Quit and restart `nvim`
 
 ## Dependencies
-I use the following additions to my neovim editor
+I use the following in my neovim editor
 ### Language Servers
 [LSP](https://langserver.org) requires both server and client support in your environment.
 Clients are installed in init.lua with a package manager like [packer.nvim](https://github.com/wbthomason/packer.nvim),
