@@ -1,8 +1,6 @@
 # nvim-miek
 My configuration for [neovim](https://github.com/neovim/neovim).  I generally run off nightly builds.
 
-It is based heavily on the work of [tjdevries](https://github.com/tjdevries) and
- [mljback](https://github.com/mjlbach) among others - read their work. Your workflow will improve, and you'll learn good things.
 
 ## Installation
   - Backup your configuration

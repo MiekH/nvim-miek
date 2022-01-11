@@ -5,7 +5,6 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   vim.fn.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
 end
 
-
 vim.cmd [[
   augroup Packer
     autocmd!
@@ -13,16 +12,15 @@ vim.cmd [[
   augroup end
 ]]
 
-
 local use = require('packer').use
 require('packer').startup(function()
   use 'wbthomason/packer.nvim' -- Package manager
 
   -- git
-  use 'tpope/vim-fugitive' -- Git commands in nvim
-  use 'tpope/vim-rhubarb' -- Fugitive-companion to interact with github
+  --tmp use 'tpope/vim-fugitive' -- Git commands in nvim
+  --tmp use 'tpope/vim-rhubarb' -- Fugitive-companion to interact with github
   -- use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } }
-  use 'tpope/vim-commentary' -- "gc" to comment visual regions/lines
+  --tmp use 'tpope/vim-commentary' -- "gc" to comment visual regions/lines
 
   -- gutentags
   -- use 'ludovicchabant/vim-gutentags' -- Automatic tags management
@@ -48,13 +46,13 @@ require('packer').startup(function()
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-cmdline'
-  use 'saadparwaiz1/cmp_luasnip'
-  use 'L3MON4D3/LuaSnip' -- Snippets plugin
+  --tmp use 'saadparwaiz1/cmp_luasnip'
+  --tmp use 'L3MON4D3/LuaSnip' -- Snippets plugin
 
   -- themes
-  use 'joshdick/onedark.vim' -- Theme inspired by Atom
-  use 'Mofiqul/vscode.nvim'  -- Theme inspired by VScode, lua friendly
-  use 'itchyny/lightline.vim' -- Fancier statusline
+  use 'joshdick/onedark.vim'    -- Theme inspired by Atom
+  --use 'Mofiqul/vscode.nvim'   -- Theme inspired by VScode, lua friendly
+  use 'itchyny/lightline.vim'   -- Fancier statusline
 
   -- Add indentation guides even on blank lines
   use 'lukas-reineke/indent-blankline.nvim'
@@ -65,7 +63,7 @@ end)
 vim.o.inccommand = 'nosplit'
 
 --Set highlight on search
-vim.o.hlsearch = false
+vim.o.hlsearch = true
 
 --Make line numbers default
 vim.wo.number = true
@@ -79,7 +77,7 @@ vim.o.backup = true
 vim.o.hidden = true
 
 --Enable mouse mode
-vim.o.mouse = 'a'
+vim.o.mouse = 'i'
 
 --Enable break indent
 vim.o.breakindent = true
@@ -97,15 +95,10 @@ vim.o.updatetime = 250
 vim.wo.signcolumn = 'yes'
 
 --Set colorscheme (order is important here)
-vim.o.termguicolors = true
-vim.g.onedark_terminal_italics = 2
+--vim.o.termguicolors = true
+vim.cmd[[colorscheme onedark]]
 --vim.g.vscode_style = "dark"
 --vim.g.vscode_style = "light"
-vim.cmd[[colorscheme onedark]]
-
--- cursor lines
-vim.opt.cursorline = true
-vim.opt.cursorline = false
 
 --Set statusbar
 vim.g.lightline = {
@@ -113,6 +106,17 @@ vim.g.lightline = {
   active = { left = { { 'mode', 'paste' }, { 'gitbranch', 'readonly', 'filename', 'modified' } } },
   component_function = { gitbranch = 'fugitive#head' },
 }
+
+-- cursor lines
+vim.opt.cursorline = true
+vim.opt.cursorline = false
+
+--Tab control" - - - tabs controls: C==ctl
+vim.api.nvim_set_keymap ('n', '<C-H>',     ':tabprevious<CR>',                        {noremap = true})
+vim.api.nvim_set_keymap ('n', '<C-L>',     ':tabnext<CR>',                            {noremap = true})
+vim.api.nvim_set_keymap ('n', '<C-Left>',  ':execute "tabmove" tabpagenr() - 2 <CR>', {noremap = true})
+vim.api.nvim_set_keymap ('n', '<C-Right>', ':execute "tabmove" tabpagenr() + 1 <CR>', {noremap = true})
+
 
 --Remap space as leader key
 vim.api.nvim_set_keymap('', '<Space>', '<Nop>', { noremap = true, silent = true })
@@ -254,21 +258,82 @@ local on_attach = function(_, bufnr)
   vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
 end
 
--- nvim-cmp supports additional completion capabilities
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
-  -- Enable the following language servers
-  -- local servers = { 'bash-language-server', 'clangd', 'haskell-language-server', 'lua-language-server', 'pylsp', 'svls' }
-  local servers = { 'clangd', 'pylsp', 'svls' }
-  for _, lsp in ipairs(servers) do
-    nvim_lsp[lsp].setup {
-      on_attach = on_attach,
-      flags = {
-        debounce_text_changes = 150,
-      }
+-- Enable language servers
+-- nvim_lsp['clangd'].setup {
+--    on_attach = on_attach,
+--    flags = {
+--      debounce_text_changes = 150,
+--    }
+-- }
+-- 
+-- nvim_lsp['pylsp'].setup {
+--    on_attach = on_attach,
+--    flags = {
+--      debounce_text_changes = 150,
+--    }
+-- }
+-- 
+-- nvim_lsp['svls'].setup {
+--    on_attach = on_attach,
+--    cmd = {'/Users/miek/.local/bin/svls','-d'};
+--    filetypes = {'verilog'},
+--    --root_dir = require('lspconfig').util.root_pattern('.svls.toml'),
+--    flags = {
+--      debounce_text_changes = 150,
+--    }
+-- }
+-- 
+-- nvim_lsp['hls'].setup {
+--    on_attach = on_attach,
+--    cmd = { 'haskell-language-server-wrapper', '--lsp' };
+--    filetypes = { 'haskell', 'lhaskell' }
+--    -- lspinfo = function on_stdout(_, data, _)
+--    --    local version = data[1]
+--    --    table.insert(extra, 'version:   ' .. version)
+--    --  end
+--    --  
+--    --  local opts = {
+--    --    cwd = cfg.cwd,
+--    --    stdout_buffered = true,
+--    --    on_stdout = on_stdout,
+--    --  }
+--    --  local chanid = vim.fn.jobstart({ cfg.cmd[1], '--version' }, opts)
+--    --  vim.fn.jobwait { chanid }
+--    --  return extra
+--    -- root_dir = root_pattern("*.cabal", "stack.yaml", "cabal.project", "package.yaml", "hie.yaml")
+--    -- settings = {
+--    --   haskell = {
+--    --     formattingProvider = "ormolu"
+--    --   }
+--    -- }
+-- }
+
+-- local servers = { 'clangd', 'haskell-language-server-wrapper', 'pylsp', 'svls' }
+local servers = { 'clangd', 'hls', 'pylsp', 'svls' }
+
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup {
+    on_attach = on_attach,
+    flags = {
+      debounce_text_changes = 150,
     }
-  end
+  }
+end
+
+require('lspconfig').pylsp.setup{
+}
+
+require('lspconfig').hls.setup{
+  cmd = { 'haskell-language-server-wrapper', '--lsp' };
+  filetypes = { 'haskell', 'lhaskell' },
+  -- root_dir = root_pattern("*.cabal", "stack.yaml", "cabal.project", "package.yaml", "hie.yaml"),
+  settings = {
+    haskell = {
+      formattingProvider = "ormolu"
+    }
+  }
+}
 
 
 -- Example custom server
@@ -279,9 +344,6 @@ capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, 'lua/?.lua')
 table.insert(runtime_path, 'lua/?/init.lua')
-
-require('lspconfig').pylsp.setup{
-}
 
 -- require('lspconfig').sumneko_lua.setup {
 --   cmd = { sumneko_binary, '-E', sumneko_root_path .. '/main.lua' },
@@ -315,52 +377,57 @@ require('lspconfig').pylsp.setup{
 vim.o.completeopt = 'menuone,noselect'
 
 -- luasnip setup
-local luasnip = require 'luasnip'
+-- local luasnip = require 'luasnip'
 
-  local cmp = require'cmp'
+local cmp = require'cmp'
 
-  cmp.setup({
-    snippet = {
-      expand = function(args)
-        luasnip.lsp_expand(args.body)
-      end,
-    },
-    mapping = {
-      ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-      ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-      ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-      ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-      ['<C-e>'] = cmp.mapping({
-        i = cmp.mapping.abort(),
-        c = cmp.mapping.close(),
-      }),
-      ['<CR>'] = cmp.mapping.confirm({ select = true }),
-    },
-    sources = cmp.config.sources({
-      { name = 'nvim_lsp' },
-      -- { name = 'vsnip' }, -- For vsnip users.
-      { name = 'luasnip' }, -- For luasnip users.
-      -- { name = 'ultisnips' }, -- For ultisnips users.
-      -- { name = 'snippy' }, -- For snippy users.
-    }, {
-      { name = 'path' },
-      { name = 'buffer' },
-    })
+-- nvim-cmp supports additional completion capabilities
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
+cmp.setup({
+  snippet = {
+    expand = function(args)
+    -- luasnip.lsp_expand(args.body)
+    end,
+  },
+  mapping = {
+    ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+    ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+    ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+    ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+    ['<C-e>'] = cmp.mapping({
+      i = cmp.mapping.abort(),
+      c = cmp.mapping.close(),
+    }),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+  },
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+    -- { name = 'vsnip' }, -- For vsnip users.
+    -- { name = 'luasnip' }, -- For luasnip users.
+    -- { name = 'ultisnips' }, -- For ultisnips users.
+    -- { name = 'snippy' }, -- For snippy users.
+  }, {
+    { name = 'path' },
+    { name = 'buffer' },
   })
+})
 
-  -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-  cmp.setup.cmdline('/', {
-    sources = {
-      { name = 'buffer' }
-    }
-  })
+-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+-- Note: conflicts with searching for tab
+-- cmp.setup.cmdline('/', {
+--   sources = {
+--     { name = 'buffer' }
+--   }
+-- })
 
-  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-  cmp.setup.cmdline(':', {
-    sources = cmp.config.sources({
-      { name = 'path' }
-    }, {
-      { name = 'cmdline' }
-    })
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(':', {
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    { name = 'cmdline' }
   })
+})
 
