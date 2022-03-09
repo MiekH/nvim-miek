@@ -1,5 +1,5 @@
 # nvim-miek
-My configuration for [neovim](https://github.com/neovim/neovim).  I generally run off nightly builds.
+My configuration for [neovim](https://github.com/neovim/neovim).  I run occasionally updated nightly builds.
 
 
 ## Installation
