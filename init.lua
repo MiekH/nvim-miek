@@ -37,6 +37,16 @@ require('packer').startup(function()
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use 'nvim-treesitter/nvim-treesitter-textobjects'
 
+
+  -- nvim-tree file browser
+  use {
+    'kyazdani42/nvim-tree.lua',
+    requires = {
+      'kyazdani42/nvim-web-devicons', -- optional, for file icon
+    },
+    config = function() require'nvim-tree'.setup {} end
+  }
+
   -- nvim-lspconfig
   use 'neovim/nvim-lspconfig' -- Collection of configurations for built-in LSP client
 
@@ -48,6 +58,8 @@ require('packer').startup(function()
   use 'hrsh7th/cmp-cmdline'
   --tmp use 'saadparwaiz1/cmp_luasnip'
   --tmp use 'L3MON4D3/LuaSnip' -- Snippets plugin
+
+  -- file browser
 
   -- themes
   use 'joshdick/onedark.vim'    -- Theme inspired by Atom
@@ -230,6 +242,7 @@ require('nvim-treesitter.configs').setup {
     },
   },
 }
+vim.api.nvim_set_keymap ('n', '<leader>b',':NvimTreeToggle<CR>', {noremap = true})
 
 -- LSP settings
 local nvim_lsp = require 'lspconfig'
@@ -380,6 +393,10 @@ vim.o.completeopt = 'menuone,noselect'
 -- local luasnip = require 'luasnip'
 
 local cmp = require'cmp'
+
+
+-- nvrim-tree
+
 
 -- nvim-cmp supports additional completion capabilities
 local capabilities = vim.lsp.protocol.make_client_capabilities()
