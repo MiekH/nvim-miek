@@ -15,6 +15,7 @@ I use the following in my neovim editor. Many of these come with their own depen
   - [nvim-telescope/telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) (fuzzy find)
   - [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)  (auto-completer)
   - [nvim-treesitter/nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) (highlighting/syntax)
+  - [nvim-tree](https://github.com/kyazdani42/nvim-tree.lua) (sidebar file explorer)
   - [neovim LSP]( https://neovim.io/doc/user/lsp.html) (languages support)
 
 ### Language Servers
